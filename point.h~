@@ -1,0 +1,8 @@
+#ifndef BOUNDS_H
+#define BOUNDS_H
+class Point {
+ public:
+  double x;
+  double v;
+};
+#endif

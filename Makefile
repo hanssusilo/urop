@@ -22,7 +22,7 @@ else ifeq ($(RUN),2)
 CFLAGS = -Wno-deprecated -I/usr/deslab2/gpapado/PQP_v1.3/include/
 LFLAGS = -L/usr/deslab2/gpapado/PQP_v1.3/lib -lglut -lGLU -lGL -lPQP
 else ifeq ($(RUN),4)
-CFLAGS = -Wno-deprecated
+CFLAGS = -Wno-deprecated -fpermissive
 LFLAGS = -lglut -lGLU -lGL
 
 endif

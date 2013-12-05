@@ -2,149 +2,38 @@
 #include <cmath>
 #include <iostream>
 
-#define VISUAL_RANGE 15.0
 
-Node::Node() {
-  x = 45.0;
-  y = 0.0;
-  theta = PI/2;
-  distTravelled = 0.0;
-  parent = NULL;
-  rangeCount = 0;
-  failedExpansions = 0;
+
+
+void Node::print_node(){
+  cout << this->t << '\t' << '\t' << "x:" <<  this->x << '\t' << '\t' << "v:" << this->v << '\t' << '\t' << "th:" << this->theta << '\t' << '\t' << "w:" << this->w << '\t' << '\t' << "cost:" << this->cost << endl;
 }
 
 Node::Node(Node* n) {
-  x = n->x;
-  y = n->y;
-  theta = n->theta;
-  distTravelled = n->distTravelled;
+  this->t = n->t;
+  this->x = n->x;
+  this->v = n->v;
+  this->theta = n->theta;
+  this->w = n->w;
+  this->u = n->u;
+  this->cost = n->cost;
   parent = n->parent;
-  children = n->children;
-  weight = n->weight;
-  rangeCount = n->rangeCount;
-  failedExpansions = n->failedExpansions;
-  seen_points = n->seen_points;
-  subnodes = n->subnodes;
+  //subnodes = n->subnodes;
 }
 
-Node::Node(double x, double y) {
+Node::Node(double t, double x, double v, double theta, double w, double u, double cost, Node* parent) {
+  this->t = t;
   this->x = x;
-  this->y = y;
-  theta = PI/2;
-  distTravelled = 0.0;
-  parent = NULL;
-  rangeCount = 0;
-  failedExpansions = 0;
-}
-
-Node::Node(double x, double y, double theta, double distTravelled, Node* parent) {
-  this->x = x;
-  this->y = y;
+  this->v = v;
   this->theta = theta;
-  this->distTravelled = distTravelled;
+  this->w = w;
+  this->u = u;
+  this->cost = cost;
   this->parent = parent;
-  rangeCount = 0;
-  failedExpansions = 0;
 }
 
 Node::~Node() {
   for (int i = 0; i < subnodes.size(); i++) {
     delete subnodes[i];
   }
-}
-
-void Node::weigh(int rangeIncrement, int failedIncrement) {
-  rangeCount += rangeIncrement;
-  failedExpansions += failedIncrement;
-  weight = 1.0 / (rangeCount + 0.1 * failedExpansions);
-}
-
-// The following two functions for calculating line collisions were taken from
-// www.cplusplus.com/forum/beginner/49408
-
-double PerpDot(double ax, double ay, double bx, double by) {
-  return (ax * by - ay * bx);
-}
-
-bool LineCollision(double alx, double aly, double aux, double auy, double blx, double bly, double bux, double buy) {
-  double f = PerpDot(aux - alx, auy - aly, bux - blx, buy - bly);
-  if (f == 0.0) {
-    return false;
-  }
-  double r = PerpDot(aux - alx, auy - aly, bux - aux, buy - auy);
-  double s = PerpDot(bux - blx, buy - bly, bux - aux, buy - auy);
-  if ((f > 0.0 && r > 0.0 && s > 0.0 && f > r && f > s) ||
-      (f < 0.0 && r < 0.0 && s < 0.0 && f < r && f < s)) {
-    return true;
-  }
-  return false;
-}
-
-bool Node::CheckBounds(Bounds* bounds, vector<Bounds*> obstacles) {
-  // if out of bounds
-  if (x < bounds->lx || x > bounds->ux || y < bounds->ly || y > bounds->uy) {
-    return false;
-  }
-  // if within an obstacle
-  for (int i = 0; i < obstacles.size(); i++) {
-    Bounds* b = obstacles[i];
-    if (x > b->lx && x < b->ux && y > b->ly && y < b->uy) {
-      return false;
-    }
-  }
-  return true;
-}
-
-vector<Point*> Node::GetVisibility(vector<Point*> points, vector<Bounds*> obstacles) {
-  // check the visibility of each point
-  for (int i = 0; i < points.size(); i++) {
-    Point* p = points[i];
-    double px = p->x;
-    double py = p->y;
-    // assume the point is visible first
-    bool visible = true;
-    // if the point is within range
-    if (sqrt(pow(x - px, 2) + pow(y - py, 2)) < VISUAL_RANGE) {
-      // check that all obstacles do not block the view
-      for (int j = 0; j < obstacles.size(); j++) {
-        Bounds* b = obstacles[j];
-        double lx = b->lx;
-        double ly = b->ly;
-        double ux = b->ux;
-        double uy = b->uy;
-        // if there is an obstacle in the way, the point is not visible
-        if (LineCollision(x, y, px, py, lx, ly, lx, uy) ||
-            LineCollision(x, y, px, py, lx, ly, ux, ly) ||
-            LineCollision(x, y, px, py, ux, ly, ux, uy) ||
-            LineCollision(x, y, px, py, lx, uy, ux, uy)) {
-          visible = false;
-          break;
-        }
-      }
-    } else {
-      visible = false;
-    }
-    if (visible) {
-      seen_points.push_back(p);
-    }
-  }
-  return seen_points;
-}
-
-bool Node::CheckCollisions(Node* parent, vector<Bounds*> obstacles) {
-  for (int i = 0; i < obstacles.size(); i++) {
-    Bounds* b = obstacles[i];
-    double lx = b->lx;
-    double ly = b->ly;
-    double ux = b->ux;
-    double uy = b->uy;
-    if (LineCollision(parent->x, parent->y, x, y, lx, ly, lx, uy) ||
-        LineCollision(parent->x, parent->y, x, y, lx, ly, ux, ly) ||
-        LineCollision(parent->x, parent->y, x, y, ux, ly, ux, uy) ||
-        LineCollision(parent->x, parent->y, x, y, lx, uy, ux, uy)) {
-      return false;
-    }
-  }
-  return true;
 }

@@ -1,0 +1,41 @@
+HEADERS = $(wildcard *.h)
+SOURCES = $(wildcard *.cpp *.c)
+
+PRODUCT_OBJECTS = $(addsuffix .o, $(basename $(SOURCES)))
+PRODUCT = path
+
+DESKTOP = /home/jackiechen/Desktop
+
+CC = g++
+CFLAGS = -Wno-deprecated -I$(DESKTOP)/pqp/include/
+LFLAGS = -L$(DESKTOP)/pqp/lib -lglut -lGLU -lGL -lPQP
+
+ifeq ($(DEBUG),0)
+CFLAGS += -g -O0
+else ifeq ($(DEBUG),1)
+CFLAGS = -Wno-deprecated -I/home/gpapado/omplapp-0.10.1-Source/build/Release/pqp-prefix/src/pqp/PQP_v1.3/src/ -g -O0
+LFLAGS = -L/home/gpapado/Planning/openrave/plugins/pqprave/pqp/ -lglut -lGLU -lGL -lPQP
+else ifeq ($(RUN),1)
+CFLAGS = -Wno-deprecated -I/home/gpapado/omplapp-0.10.1-Source/build/Release/pqp-prefix/src/pqp/PQP_v1.3/src/
+LFLAGS = -L/home/gpapado/Planning/openrave/plugins/pqprave/pqp/ -lglut -lGLU -lGL -lPQP
+else ifeq ($(RUN),2)
+CFLAGS = -Wno-deprecated -I/usr/deslab2/gpapado/PQP_v1.3/include/
+LFLAGS = -L/usr/deslab2/gpapado/PQP_v1.3/lib -lglut -lGLU -lGL -lPQP
+else ifeq ($(RUN),4)
+CFLAGS = -Wno-deprecated
+LFLAGS = -lglut -lGLU -lGL 
+
+endif
+
+$(PRODUCT): $(PRODUCT_OBJECTS)
+	$(CC) -o $@ $(PRODUCT_OBJECTS) $(LFLAGS)
+
+clean:
+	rm -f $(PRODUCT) *.o
+
+%.o: %.cpp $(HEADERS)
+	$(CC) $(CFLAGS) -o $@ -c $<
+
+%.o: %.c $(HEADERS)
+	$(CC) $(CFLAGS) -o $@ -c $<
+

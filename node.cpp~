@@ -1,0 +1,39 @@
+#include "node.h"
+#include <cmath>
+#include <iostream>
+
+
+
+
+void Node::print_node(){
+  cout << n->t << '\t' << '\t' << "x:" <<  n->x << '\t' << '\t' << "v:" << n->v << '\t' << '\t' << "th:" << n->theta << '\t' << '\t' << "w:" << n->w << '\t' << '\t' << "cost:" << n->cost << endl;
+}
+
+Node::Node(Node* n) {
+  this->t = n->t;
+  this->x = n->x;
+  this->v = n->v;
+  this->theta = n->theta;
+  this->w = n->w;
+  this->u = n->u;
+  this->cost = n->cost;
+  parent = n->parent;
+  //subnodes = n->subnodes;
+}
+
+Node::Node(double t, double x, double v, double theta, double w, double u, double cost, Node* parent) {
+  this->t = t;
+  this->x = x;
+  this->v = v;
+  this->theta = theta;
+  this->w = w;
+  this->u = u;
+  this->cost = cost;
+  this->parent = parent;
+}
+
+Node::~Node() {
+  for (int i = 0; i < subnodes.size(); i++) {
+    delete subnodes[i];
+  }
+}
