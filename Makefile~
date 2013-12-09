@@ -23,7 +23,7 @@ CFLAGS = -Wno-deprecated -I/usr/deslab2/gpapado/PQP_v1.3/include/
 LFLAGS = -L/usr/deslab2/gpapado/PQP_v1.3/lib -lglut -lGLU -lGL -lPQP
 else ifeq ($(RUN),4)
 CFLAGS = -Wno-deprecated -fpermissive
-LFLAGS = -lglut -lGLU -lGL -fpermissive
+LFLAGS = gcc hw_opengl.cpp -o -lglut -lGLU -lGL hw_opengl -lGL
 
 endif
 

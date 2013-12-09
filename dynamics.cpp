@@ -21,6 +21,21 @@ States
 
 typedef vector<double> state_type;
 
+struct record
+{
+    vector<state_type>& m_states;
+    vector<double>& m_times;
+
+    record(vector<state_type> &states, vector<double> &times)
+    : m_states(states), m_times(times) { }
+
+    void operator()(const state_type &y, double t)
+    {
+        m_states.push_back(y);
+        m_times.push_back(t);
+    }
+};
+
 
 
 class Dynamics {
@@ -33,7 +48,7 @@ class Dynamics {
     
     
   public:
-    const double L = 0.5;	    //Length of pendulum (m)
+    const double L = 1;	    //Length of pendulum (m)
     double f;
 
     Node* update(Node* n, double input){
@@ -95,30 +110,6 @@ int main(int argc, char** argv){
 
 
 
-
-
-
-
-
-
-
-
-
-
-struct record
-{
-    vector<state_type>& m_states;
-    vector<double>& m_times;
-
-    record(vector<state_type> &states, vector<double> &times)
-    : m_states(states), m_times(times) { }
-
-    void operator()(const state_type &y, double t)
-    {
-        m_states.push_back(y);
-        m_times.push_back(t);
-    }
-};
 
 
 

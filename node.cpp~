@@ -1,12 +1,21 @@
 #include "node.h"
 #include <cmath>
 #include <iostream>
+#include <sstream>
 
 
-
+std::string Node::print() {
+    stringstream sstm;
+    sstm << this->t << ',' << this->x << ',' << this->v << ',' << this->theta << ',' << this->w <<  ',' <<  this->cost << endl;
+    return sstm.str();
+}
 
 void Node::print_node(){
-  cout << n->t << '\t' << '\t' << "x:" <<  n->x << '\t' << '\t' << "v:" << n->v << '\t' << '\t' << "th:" << n->theta << '\t' << '\t' << "w:" << n->w << '\t' << '\t' << "cost:" << n->cost << endl;
+    cout << this->t << '\t' << '\t' << "x:" <<  this->x << '\t' << '\t' << "v:" << this->v << '\t' << '\t' << "th:" << this->theta << '\t' << '\t' << "w:" << this->w << '\t' << '\t' << "cost:" << this->cost << endl;
+}
+
+Node::Node(Node* n) {
+  this->parent = NULL;
 }
 
 Node::Node(Node* n) {
@@ -17,7 +26,7 @@ Node::Node(Node* n) {
   this->w = n->w;
   this->u = n->u;
   this->cost = n->cost;
-  parent = n->parent;
+  this->parent = n->parent;
   //subnodes = n->subnodes;
 }
 
@@ -37,3 +46,5 @@ Node::~Node() {
     delete subnodes[i];
   }
 }
+
+

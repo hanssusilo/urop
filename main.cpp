@@ -21,6 +21,5 @@ int main(int argc, char* argv[]) {
     goal.v = atof(argv[3]);
     Node* start = new Node(0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, NULL);
     Pendulum* p = new Pendulum(start, goal);
-    p->FindPathIterations(iterations);
-
+    p->FindOptimalPathIterations(iterations);
 }

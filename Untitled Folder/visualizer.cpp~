@@ -167,7 +167,7 @@ int main(int argc, char** argv) {
     
     glutInit(&argc, argv);                 // Initialize GLUT
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-    glutInitWindowSize(1200, 1200*l/x);   // Set the window's initial width & height
+    glutInitWindowSize(1500, 1500*l/x);   // Set the window's initial width & height
     glutInitWindowPosition(50, 50); // Position the window's initial top-left corner
     glutCreateWindow("Pendulum Simulation"); // Create a window with the given title
     

@@ -1,1 +1,5 @@
-0,70,5,5
+0,60,10,10,1000,1,1
+
+lx,ux,max_v,max_w,max_u,x_epsilon,v_epsilon
+
+

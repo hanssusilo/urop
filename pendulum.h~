@@ -10,6 +10,7 @@
 
 #include "node.h"
 #include "bounds.h"
+#include "obstacles.h"
 #include "dynamics.cpp"
 #include "kdtree.h"
 #include "point.h"
@@ -20,11 +21,15 @@ class Pendulum {
   Point b; // goal
   Dynamics d;
   Node* root; // start
+
+  double max_u;
+  double x_epsilon;
+  double v_epsilon;
+
   Bounds* bounds;
   vector<Obstacles*> obstacles;
   kdtree* nodes_tree;
   vector<Node*> nodes;
-  vector<Node*> goal_nodes;
 
   
   void LoadBounds();
@@ -57,5 +62,8 @@ class Pendulum {
 //  vector<Node*> FindPathSolutions(int iterations);
   vector<Node*> FindPathIterations(int iterations);
 //  vector<Node*> GetNodes();
+
+    vector<Node*> Pendulum::TraverseNodes(Node* n);
+    vector<Node*> FindOptimalPathIterations(int iterations);
 };
 #endif

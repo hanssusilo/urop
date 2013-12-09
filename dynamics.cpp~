@@ -21,10 +21,26 @@ States
 
 typedef vector<double> state_type;
 
+struct record
+{
+    vector<state_type>& m_states;
+    vector<double>& m_times;
+
+    record(vector<state_type> &states, vector<double> &times)
+    : m_states(states), m_times(times) { }
+
+    void operator()(const state_type &y, double t)
+    {
+        m_states.push_back(y);
+        m_times.push_back(t);
+    }
+};
+
 
 
 class Dynamics {
     //PARAMETERS
+    const double pi = 3.14159265358979;    //Mass of object (kg)
     const double M = 10.0;    //Mass of object (kg)
     const double m = 2.0;	    //Pendulum mass (kg)
     const double I = 2.0;	    //Moment of Inertia of pendulum (kg*m^2)
@@ -47,6 +63,10 @@ class Dynamics {
         x[3] = n->w;
 	    integrate(*this, x, t1, t2, DT);  
 //        cout << t2 << '\t' << '\t' << "x:" <<  x[0] << '\t' << '\t' << "x_d:" << x[1] << '\t' << '\t' << "th:" << x[2] << '\t' << '\t' << "th_d:" << x[3] << endl;
+        x[2] = fmod(x[2], 2.0*pi);        
+        if (x[2] < 0){
+            x[2] = x[2]+2.0*pi;
+        }
         return new Node(t2, x[0], x[1], x[2], x[3], input, cost, n);
     }
     
@@ -90,30 +110,6 @@ int main(int argc, char** argv){
 
 
 
-
-
-
-
-
-
-
-
-
-
-struct record
-{
-    vector<state_type>& m_states;
-    vector<double>& m_times;
-
-    record(vector<state_type> &states, vector<double> &times)
-    : m_states(states), m_times(times) { }
-
-    void operator()(const state_type &y, double t)
-    {
-        m_states.push_back(y);
-        m_times.push_back(t);
-    }
-};
 
 
 
