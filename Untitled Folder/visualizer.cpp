@@ -10,7 +10,7 @@
 #include "../node.h"
 
 
-#define Y 400
+#define W 2400
 
 
 double x;
@@ -101,7 +101,7 @@ void draw_obstacles() {
         fp_in.getline(value,100);
         y2 = atof(value);
         //cout << "obstacles:" << x1*2.0/x-1 << " " << x2*2.0/x-1 << " " << y1/l << " " << y2/l << endl;
-        draw_box(x1*2.0/x-1,y1/l,x2*2.0/x-1,y2/l);
+        draw_box(x1*2.0/x-1,y1*6.0/x,x2*2.0/x-1,y2*6.0/x);
     }
     fp_in.close();
 }
@@ -109,14 +109,14 @@ void draw_obstacles() {
 void draw_node(Node* n) {
     glColor3f(0.0,0.0,1.0);
     //cout << (n->x)*2.0/x-1 << "  " << endl;
-    draw_box((n->x-.5)*2.0/x-1, -.25/l, (n->x+.5)*2.0/x-1, .25/l);
+    draw_box((n->x-.5)*2.0/x-1, -.25*6.0/x, (n->x+.5)*2.0/x-1, .25*6.0/x);
     glColor3f(1.0,1.0,1.0);
-    draw_line((n->x)*2.0/x-1, 0, ((n->x)+.5*sin(n->theta))*2.0/x-1, (-.5*cos(n->theta)));
+    draw_line((n->x)*2.0/x-1, 0, ((n->x)+.5*l*sin(n->theta))*2.0/x-1, (-.5*l*cos(n->theta))*6.0/x);
 }
 
 void draw_goal() {
     glColor3f(1.0,0.0,0.0);
-    draw_box((x_goal-x_epsilon)*2.0/x-1, -.25/l, (x_goal+x_epsilon)*2.0/x-1, .25/l);
+    draw_box((x_goal-x_epsilon)*2.0/x-1, -.25*6.0/x, (x_goal+x_epsilon)*2.0/x-1, .25*6.0/x);
 }
 
 void change_size(int w, int h) {
@@ -167,7 +167,7 @@ int main(int argc, char** argv) {
     
     glutInit(&argc, argv);                 // Initialize GLUT
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-    glutInitWindowSize(1200, 1200*l/x);   // Set the window's initial width & height
+    glutInitWindowSize(W/2.0, W/6.0);   // Set the window's initial width & height
     glutInitWindowPosition(50, 50); // Position the window's initial top-left corner
     glutCreateWindow("Pendulum Simulation"); // Create a window with the given title
     
