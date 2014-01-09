@@ -1,5 +1,4 @@
-0,80,10,10,1000,1,1
+0,60,20,20,1000,1,1,1,2
 
-lx,ux,max_v,max_w,max_u,x_epsilon,v_epsilon
-
+key: lx, ux, max_v, max_w, max_u, x_epsilon, v_epsilon, theta_epsilon, w_epsilon
 

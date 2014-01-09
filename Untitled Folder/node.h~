@@ -21,7 +21,6 @@ class Node {
   vector<Node*> subnodes;
   string print();
   void print_node();
-  void add_child(Node* n);
   Node();
   Node(Node* n); // Copy constructor
   Node(double t, double x, double v, double theta, double w, double u, double cost, Node* parent);

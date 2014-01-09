@@ -1,5 +1,5 @@
-#ifndef BOUNDS_H
-#define BOUNDS_H
+#ifndef POINT_H
+#define POINT_H
 class Point {
  public:
   double x;

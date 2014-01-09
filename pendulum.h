@@ -7,6 +7,8 @@
 #include <ctime>
 #include <fstream>
 #include <iostream>
+#include <GL/glut.h>
+#include <GL/freeglut.h>
 
 #include "node.h"
 #include "bounds.h"
@@ -17,6 +19,11 @@
 
 using namespace std;
 
+#ifndef st_type
+#define st_type
+typedef vector<double> state_type;
+#endif 
+
 class Pendulum {
   Point b; // goal
   Dynamics d;
@@ -25,6 +32,8 @@ class Pendulum {
   double max_u;
   double x_epsilon;
   double v_epsilon;
+  double theta_epsilon;
+  double w_epsilon;
 
   Bounds* bounds;
   vector<Obstacles*> obstacles;
@@ -60,7 +69,8 @@ class Pendulum {
   vector<Node*> FindPathIterations(int iterations);
 //  vector<Node*> GetNodes();
 
-    vector<Node*> Pendulum::TraverseNodes(Node* n);
+    vector<Node*> TraverseNodes(Node* n);
     vector<Node*> FindOptimalPathIterations(int iterations);
+    void PhaseDiagram(int* argc, char** argv);
 };
 #endif

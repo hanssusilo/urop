@@ -6,12 +6,16 @@
 
 std::string Node::print() {
     stringstream sstm;
-    sstm << this->t << ',' << this->x << ',' << this->v << ',' << this->theta << ',' << this->w <<  ',' <<  this->cost << endl;
+    sstm << this->t << ',' << this->x << ',' << this->v << ',' << this->theta << ',' << this->w <<  ',' <<  this->u << ',' <<  this->cost << endl;
     return sstm.str();
 }
 
 void Node::print_node(){
     cout << this->t << '\t' << '\t' << "x:" <<  this->x << '\t' << '\t' << "v:" << this->v << '\t' << '\t' << "th:" << this->theta << '\t' << '\t' << "w:" << this->w << '\t' << '\t' << "cost:" << this->cost << endl;
+}
+
+void Node::add_child(Node* n){
+    this->children.push_back(n);
 }
 
 Node::Node() {
@@ -27,10 +31,12 @@ Node::Node(Node* n) {
   this->u = n->u;
   this->cost = n->cost;
   this->parent = n->parent;
+  this->times = n->times;
+  this->trajectory = n->trajectory;
   //subnodes = n->subnodes;
 }
 
-Node::Node(double t, double x, double v, double theta, double w, double u, double cost, Node* parent) {
+Node::Node(double t, double x, double v, double theta, double w, double u, double cost, Node* parent, vector<double> times, vector<state_type> trajectory) {
   this->t = t;
   this->x = x;
   this->v = v;
@@ -39,6 +45,8 @@ Node::Node(double t, double x, double v, double theta, double w, double u, doubl
   this->u = u;
   this->cost = cost;
   this->parent = parent;
+  this->times = times;
+  this->trajectory = trajectory;
 }
 
 Node::~Node() {

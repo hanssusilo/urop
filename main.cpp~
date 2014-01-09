@@ -9,17 +9,30 @@
 
 using namespace std;
 
+#ifndef st_type
+#define st_type
+typedef vector<double> state_type;
+#endif 
+
 int main(int argc, char* argv[]) {
     //cout << (fmod((-6.3*3.14),(2*3.14))/3.14) << endl;
-    if (argc != 4) {
+    Point goal;
+    int iterations;
+    if (argc == 6) {
+        iterations = atoi(argv[1]);
+        goal.x = atof(argv[2]);
+        goal.v = atof(argv[3]);
+        goal.theta = atof(argv[4]);
+        goal.w = atof(argv[5]);
+    } else{
         cout << "Wrong number of arguments, exiting.\n";
         exit(0);
     }
-    Point goal;
-    int iterations = atoi(argv[1]);
-    goal.x = atof(argv[2]);
-    goal.v = atof(argv[3]);
-    Node* start = new Node(0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, NULL);
+
+    vector<double> times;
+    vector<state_type> trajectory;
+
+    Node* start = new Node(0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, NULL, times, trajectory);
     Pendulum* p = new Pendulum(start, goal);
-    p->FindPathIterations(iterations);
+    p->FindOptimalPathIterations(iterations);
 }

@@ -3,9 +3,16 @@
 #include <vector>
 #include <string>
 
-#define PI 3.14159
+#ifndef PI
+#define PI 3.14159265358979
+#endif 
 
 using namespace std;
+
+#ifndef st_type
+#define st_type
+typedef vector<double> state_type;
+#endif 
 
 class Node {
  public:
@@ -16,14 +23,18 @@ class Node {
   double w;
   double u;
   double cost;
+  vector<double> times;
+  vector<state_type> trajectory;
+
   Node* parent;
   vector<Node*> children;
   vector<Node*> subnodes;
   string print();
   void print_node();
+  void add_child(Node* n);
   Node();
   Node(Node* n); // Copy constructor
-  Node(double t, double x, double v, double theta, double w, double u, double cost, Node* parent);
+  Node(double t, double x, double v, double theta, double w, double u, double cost, Node* parent, vector<double> times, vector<state_type> trajectory);
   ~Node();
 };
 #endif
