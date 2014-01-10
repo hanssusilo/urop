@@ -64,9 +64,9 @@ void load_nodes(char* filename) {
             n->u = atof(value);
             in.getline(value, 100);
             n->cost = atof(value);
-            //n->print_node();
 
             nodes.push_back(n);
+            //n->print_node();
         }
         in.close();
     } else {
@@ -145,13 +145,13 @@ static void display(int i) {
         i = 0;
         space_pressed = false;
     }
-    int prevTime = nodes[i]->t;
-    if ((i+1) < nodes.size()){i++;}
-    glutTimerFunc((nodes[i]->t-prevTime)*1000, display, i);
+    if ((i+1) < nodes.size()){
+        i++;
+    }
+    glutTimerFunc(100, display, i);
 }
 
 
-/* Key Handler: listens for esc to exit and spacebar to restart  */
 void processKeys(unsigned char key, int x, int y) {
     if (key == 27) { // esc
         glutLeaveMainLoop();
@@ -162,19 +162,20 @@ void processKeys(unsigned char key, int x, int y) {
 
 
 /* Main function: GLUT runs as a console application starting at main()  */
-int main(int* argc, char** argv) {
+int main(int argc, char** argv) {
+    /**/
     set_bounds();
-    load_nodes(argv[1]);    //Set bounds and load nodes
+    load_nodes(argv[1]);
     
-    glutInit(&argc, argv);              // Initialize GLUT
+    glutInit(&argc, argv);                 // Initialize GLUT
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowSize(W/2.0, W/6.0);   // Set the window's initial width & height
     glutInitWindowPosition(50, 50); // Position the window's initial top-left corner
-    glutCreateWindow("Pendulum Simulation");// Create a window with the given title
+    glutCreateWindow("Pendulum Simulation"); // Create a window with the given title
     
-    glutTimerFunc(100, display, 0); // Use timer function
-    glutKeyboardFunc(processKeys);  // Register keyboard handler
-    glutMainLoop(); // Enter the infinitely event-processing loop
+    glutTimerFunc(100, display, 0);
+    glutKeyboardFunc(processKeys);
+    glutMainLoop();           // Enter the infinitely event-processing loop
 
     return 0;
 }
