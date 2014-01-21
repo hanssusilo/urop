@@ -35,11 +35,11 @@ class Pendulum {
   double theta_epsilon;
   double w_epsilon;
 
-  static Bounds* bounds;
+  Bounds* bounds;
   vector<Obstacles*> obstacles;
   kdtree* nodes_tree;
   vector<Node*> nodes;
-  static vector<Node*> final_nodes;
+
   
   void LoadBounds();
   void LoadObstacles();
@@ -66,12 +66,11 @@ class Pendulum {
   Pendulum(Node* start, Point goal);
   ~Pendulum();
 //  vector<Node*> FindPathSolutions(int iterations);
-  vector<Node*> FindPathIterations(int iterations);
+  vector<Node*> FindPathIterations(int iterations, int expand_method);
 //  vector<Node*> GetNodes();
 
     vector<Node*> TraverseNodes(Node* n);
-    vector<Node*> FindOptimalPathIterations(int iterations);
-    static void display();
-    void PhaseDiagram(int* argc, char** argv);
+    vector<Node*> FindOptimalPathIterations(int iterations, int expand_method);
+    void PhaseDiagram(int argc, char** argv);
 };
 #endif

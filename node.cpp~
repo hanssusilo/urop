@@ -14,6 +14,10 @@ void Node::print_node(){
     cout << this->t << '\t' << '\t' << "x:" <<  this->x << '\t' << '\t' << "v:" << this->v << '\t' << '\t' << "th:" << this->theta << '\t' << '\t' << "w:" << this->w << '\t' << '\t' << "cost:" << this->cost << endl;
 }
 
+void Node::add_child(Node* n){
+    this->children.push_back(n);
+}
+
 Node::Node() {
   this->parent = NULL;
 }

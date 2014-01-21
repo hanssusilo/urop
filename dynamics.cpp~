@@ -84,7 +84,7 @@ class Dynamics {
             cout << "Time: " << times[i] << " " << states[i][2] << endl;
         }
         #endif
-        /*
+        */
 
         //Normalizing the theta value
         x[2] = fmod(x[2], 2.0*PI);        
@@ -98,7 +98,7 @@ class Dynamics {
             }
         }
         
-        return new Node(t2, x[0], x[1], x[2], x[3], input, cost, n, times, states);
+        return new Node(t2, x[0], x[1], x[2], x[3], input, cost, n, times, n->iteration+1; states);
     }
 
     

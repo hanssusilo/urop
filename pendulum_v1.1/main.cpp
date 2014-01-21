@@ -1,0 +1,102 @@
+#include <cstdlib>
+#include <cstring>
+#include <iostream>
+#include <math.h>
+
+#include "node.h"
+#include "pendulum.h"
+#include "point.h"
+
+using namespace std;
+
+#ifndef st_type
+#define st_type
+typedef vector<double> state_type;
+#endif 
+
+void benchmark(long iterations, int datapoints, Node* start, Point goal){
+    double initCost = DBL_MAX;
+    
+    //BENCHMARKING
+    char benchFilename1[30] = {"benchmark/path_1.txt"};
+    std::ofstream fp_out_bench1;
+    fp_out_bench1.open(benchFilename1,std::ios::out);
+    for (int dpoint = 0; dpoint < datapoints; dpoint++){
+        Pendulum* p = new Pendulum(start, goal);
+        vector<Node*> goal_nodes = p->FindPathIterations(iterations, 1);
+        long iter = 0;
+        double cost = initCost;
+        for (int i=0; i<goal_nodes.size(); i++){
+            while (iter < goal_nodes[i]->iteration){
+                fp_out_bench1 << cost << "," << iter << endl;
+                iter += 1000;
+            }
+            cost = goal_nodes[i]->cost;
+        }
+    }
+
+    //BENCHMARKING
+    char benchFilename2[30] = {"benchmark/path_2.txt"};
+    std::ofstream fp_out_bench2;
+    fp_out_bench2.open(benchFilename2,std::ios::out);
+    for (int dpoint = 0; dpoint < datapoints; dpoint++){
+        Pendulum* p = new Pendulum(start, goal);
+        vector<Node*> goal_nodes = p->FindPathIterations(iterations, 2);
+        long iter = 0;
+        double cost = initCost;
+        for (int i=0; i<goal_nodes.size(); i++){
+            while (iter < goal_nodes[i]->iteration){
+                fp_out_bench2 << cost << "," << iter << endl;
+                iter += 1000;
+            }
+            cost = goal_nodes[i]->cost;
+        }
+    }
+    
+    //BENCHMARKING
+    char benchFilename3[30] = {"benchmark/path_3.txt"};
+    std::ofstream fp_out_bench3;
+    fp_out_bench3.open(benchFilename3,std::ios::out);
+    for (int dpoint = 0; dpoint < datapoints; dpoint++){
+        Pendulum* p = new Pendulum(start, goal);
+        vector<Node*> goal_nodes = p->FindPathIterations(iterations, 3);
+        long iter = 0;
+        double cost = initCost;
+        for (int i=0; i<goal_nodes.size(); i++){
+            while (iter < goal_nodes[i]->iteration){
+                fp_out_bench3 << cost << "," << iter << endl;
+                iter += 1000;
+            }
+            cost = goal_nodes[i]->cost;
+        }
+    }
+}
+
+
+int main(int argc, char* argv[]) {
+    Point goal;
+    int iterations;
+    if (argc == 6) {
+        iterations = atoi(argv[1]);
+        goal.x = atof(argv[2]);
+        goal.v = atof(argv[3]);
+        goal.theta = atof(argv[4]);
+        goal.w = atof(argv[5]);
+    } else{
+        cout << "Wrong number of arguments, exiting.\n";
+        exit(0);
+    }
+
+    vector<double> times;
+    vector<state_type> trajectory;
+
+    Node* start = new Node(0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, NULL, times, 0, trajectory);
+
+/*
+    Pendulum* p = new Pendulum(start, goal);
+    p->FindOptimalPathIterations(iterations, 1);
+*/
+    //p->PhaseDiagram(argc, argv);
+    benchmark(iterations, 50, start, goal);
+}
+

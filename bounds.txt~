@@ -1,4 +1,13 @@
-0,60,20,20,1000,1,1,1,1
+0,40,20,20,1000,
+1,5,5,5
 
-key: lx, ux, max_v, max_w, max_u, x_epsilon, v_epsilon, theta_epsilon, w_epsilon
+
+key: 
+lx, ux, max_v, max_w, max_u, 
+x_epsilon, v_epsilon, theta_epsilon, w_epsilon
+
+Method_of_expansion
+phase_diagram
+debug
+node_gen
 

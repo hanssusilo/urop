@@ -1,0 +1,41 @@
+#ifndef NODE_H
+#define NODE_H
+#include <vector>
+#include <string>
+
+#ifndef PI
+#define PI 3.14159265358979
+#endif 
+
+using namespace std;
+
+#ifndef st_type
+#define st_type
+typedef vector<double> state_type;
+#endif 
+
+class Node {
+ public:
+  double t;
+  double x;
+  double v;
+  double theta;
+  double w;
+  double u;
+  double cost;
+  vector<double> times;
+  long iteration;
+  vector<state_type> trajectory;
+
+  Node* parent;
+  vector<Node*> children;
+  vector<Node*> subnodes;
+  string print();
+  void print_node();
+  void add_child(Node* n);
+  Node();
+  Node(Node* n); // Copy constructor
+  Node(double t, double x, double v, double theta, double w, double u, double cost, Node* parent, vector<double> times, long iteration, vector<state_type> trajectory);
+  ~Node();
+};
+#endif

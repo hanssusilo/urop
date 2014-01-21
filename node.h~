@@ -24,6 +24,7 @@ class Node {
   double u;
   double cost;
   vector<double> times;
+  long iteration;
   vector<state_type> trajectory;
 
   Node* parent;
@@ -31,6 +32,7 @@ class Node {
   vector<Node*> subnodes;
   string print();
   void print_node();
+  void add_child(Node* n);
   Node();
   Node(Node* n); // Copy constructor
   Node(double t, double x, double v, double theta, double w, double u, double cost, Node* parent, vector<double> times, vector<state_type> trajectory);

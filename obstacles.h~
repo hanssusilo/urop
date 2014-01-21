@@ -1,11 +1,18 @@
-#ifndef BOUNDS_H
-#define BOUNDS_H
-class Bounds {
- public:
-  double lx;
-  double ux;
+#ifndef OBSTACLES_H
+#define OBSTACLES_H
 
-  double max_v;
-  double max_w;
+#include <sstream>
+class Obstacles {
+  public:
+    double lx;
+    double ly;
+    double ux;
+    double uy;
+  
+    std::string print() {
+        stringstream sstm;
+        sstm << this->lx << ',' << this->ux << ',' << this->ly << ',' << this->uy << endl;
+        return sstm.str();
+}
 };
 #endif
